@@ -24,6 +24,10 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
     private ArrayList<ModelSoal> dataItemList;
 
+    public ArrayList<ModelSoal> getDataItemList() {
+        return dataItemList;
+    }
+
     public QuizAdapter(ArrayList<ModelSoal> dataItemList) {
         this.dataItemList = dataItemList;
     }
@@ -59,19 +63,19 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 @Override
                 public void onCheckedChanged(RadioGroupPlus radioGroupPlus, int i) {
                     if (R.id.rdA == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("A");
+                        dataItemList.get(position).setPilihan("A");
                     }
                     if (R.id.rdB == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("B");
+                        dataItemList.get(position).setPilihan("B");
                     }
                     if (R.id.rdC == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("C");
+                        dataItemList.get(position).setPilihan("C");
                     }
                     if (R.id.rdD == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("D");
+                        dataItemList.get(position).setPilihan("D");
                     }
 
-                    Toast.makeText(context,dataItemList.get(position).getJawaban(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,dataItemList.get(position).getPilihan(),Toast.LENGTH_LONG).show();
                 }
             });
         }else{
@@ -86,19 +90,19 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 @Override
                 public void onCheckedChanged(RadioGroupPlus radioGroupPlus, int i) {
                     if (R.id.rdA == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("A");
+                        dataItemList.get(position).setPilihan("A");
                     }
                     if (R.id.rdB == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("B");
+                        dataItemList.get(position).setPilihan("B");
                     }
                     if (R.id.rdC == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("C");
+                        dataItemList.get(position).setPilihan("C");
                     }
                     if (R.id.rdD == radioGroupPlus.getCheckedRadioButtonId()) {
-                        dataItemList.get(position).setJawaban("D");
+                        dataItemList.get(position).setPilihan("D");
                     }
 
-                    Toast.makeText(context,dataItemList.get(position).getJawaban(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,dataItemList.get(position).getPilihan(),Toast.LENGTH_LONG).show();
                 }
             });
              Picasso.get().load(dataItemList.get(position).getUrlGambar()).into( image );

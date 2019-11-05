@@ -2,9 +2,13 @@ package com.juaracoding.hukumansatu;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -41,16 +45,20 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_soal, parent, false);
             Penampung penampung = new Penampung(view);
             return penampung;
-        }else{
+        }else if (viewType==1){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_soal_gambar, parent, false);
             Penampung2 penampung2 = new Penampung2(view);
             return penampung2;
+        }else{
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_soal_essai, parent, false);
+            Penampung3 penampung3 = new Penampung3(view);
+            return penampung3;
         }
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof  Penampung){
             ((Penampung)holder).txtSoal.setText(dataItemList.get(position).getPertanyaan());
@@ -78,7 +86,7 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     Toast.makeText(context,dataItemList.get(position).getPilihan(),Toast.LENGTH_LONG).show();
                 }
             });
-        }else{
+        }else if(holder instanceof  Penampung2){
 
             ImageView image = ((Penampung2)holder).gambar;
             ((Penampung2)holder).txtSoal.setText(dataItemList.get(position).getPertanyaan());
@@ -106,6 +114,25 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             });
              Picasso.get().load(dataItemList.get(position).getUrlGambar()).into( image );
+        }else{
+
+            final EditText jawaban =  ((Penampung3)holder).txtJawaban;
+            ((Penampung3)holder).txtSoal.setText(dataItemList.get(position).getPertanyaan());
+
+
+            ((Penampung3)holder).txtJawaban.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+                        dataItemList.get(position).setPilihan( jawaban.getText().toString());
+                        return true;
+                    }
+                    return false;
+
+
+
+                }
+            });
         }
 
 
@@ -115,13 +142,15 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
+        if(dataItemList.get(position).getJawaban().equalsIgnoreCase("naomi scott")){
+            return 2;
+        }
         if (dataItemList.get(position).getUrlGambar().equalsIgnoreCase("-")){
 
             return 0;
-        }else{
+        }else {
             return 1;
         }
-
 
     }
 
@@ -176,6 +205,23 @@ public class QuizAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             gambar = (ImageView) itemView.findViewById(R.id.gambar);
 
             rg = (RadioGroupPlus)itemView.findViewById((R.id.radio_group_plus));
+        }
+        @Override
+        public void onClick(View view) {
+            Log.d("onclick", "onClick " + getLayoutPosition() + " " + txtSoal.getText());
+        }
+    }
+
+    static class Penampung3 extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView txtSoal;
+        public EditText txtJawaban;
+
+        public Penampung3(View itemView) {
+            super(itemView);
+            //  itemView.setOnClickListener(this);
+            txtSoal = (TextView) itemView.findViewById(R.id.txtSoal);
+            txtJawaban = (EditText)itemView.findViewById(R.id.txtJawaban);
+
         }
         @Override
         public void onClick(View view) {
